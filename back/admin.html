@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Auth Token Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="57x57" href="/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="manifest" href="/icons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <script
+            src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="resource_old/sorttable.js"></script>
+    <script>sorttable.sort_alpha = function (a, b) {
+        return a[0].localeCompare(b[0]);
+    }</script>
+    <style>
+        body {
+            background: #183544;
+            color: #FFF;
+            font-family: Helvetica, Arial, sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+        }
+
+        a:link {
+            color: rgb(243, 111, 54);
+        }
+
+        a:visited {
+            color: #761c19;
+        }
+
+        a:hover {
+            color: #31b0d5;
+        }
+
+        a:active {
+            color: #761c19;
+        }
+
+        #price {
+            color: #d21f30;
+        }
+
+        #tablesort {
+            font-weight: 600;
+        }
+
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background: #183544;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="col-sm-12">
+        <div class="form-group col-sm-12">
+            <label for="captratoken">Auth Token: <span style="color:green">*Yêu cầu nhập Token để sử dụng hết công cụ</span></label>
+            <input type="text" class="form-control" id="captratoken" placeholder="Khóa an toàn để nhận diện Robots">
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-primary" id="newtoken">New Token</button>
+            <button class="btn btn-primary" id="checktoken">Check Token</button>
+        </div>
+        <ul class="list-group" id="result_ext">
+
+        </ul>
+    </div>
+</div>
+<script>
+    $("#newtoken").click(function () {
+        var authToken = $("#captratoken").val();
+        $.ajax({
+            //url: 'http://cors-anywhere.herokuapp.com/http://104.199.207.199/api/lazada?url=' + linksquerybuild +'&pricemin='+pricemin+'&pricemax='+pricemax+"&discountmin="+discount+"&authtoken="+captratoken,
+            url: 'http://localhost:8081/api/gentokenauth?pwgen=' + authToken +'&numberadd=5',
+            type: 'GET',
+            success: function (data) {
+                var data = data.split("|");
+                var msg = '<li class="list-group-item list-group-item-danger">Add Success:5 New Token</li>';
+                $("#result_ext").append(msg);
+                $.each(data, function( index, value ) {
+                    var msg = '<li class="list-group-item list-group-item-danger">Token:'+data[index]+'</li>';
+                    $("#result_ext").append(msg);
+                });
+            }
+        });
+    });
+    $("#checktoken").click(function () {
+        var authToken = $("#captratoken").val();
+        $.ajax({
+            //url: 'http://cors-anywhere.herokuapp.com/http://104.199.207.199/api/lazada?url=' + linksquerybuild +'&pricemin='+pricemin+'&pricemax='+pricemax+"&discountmin="+discount+"&authtoken="+captratoken,
+            url: 'http://localhost:8081/api/viewusertoken?pwgen=' + authToken,
+            type: 'GET',
+            success: function (data) {
+                $.each(data, function( index, value ) {
+                    var msg = '<li class="list-group-item list-group-item-danger">Token:'+data[index]+'</li>';
+                    $("#result_ext").append(msg);
+                });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

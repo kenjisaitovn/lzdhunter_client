@@ -1,1 +1,1 @@
-#Lzd Hunter v1.0
+#LzdHunter v1.0
