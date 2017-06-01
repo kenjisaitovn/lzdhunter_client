@@ -1,2 +1,1 @@
-# lzdhunter_client
-LzdHunter Client
+#Lzd Hunter v1.0
